@@ -6,6 +6,7 @@ import { useFormStatus } from "react-dom";
 import { Controller, useForm, useFormState } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import Cookie from "js-cookie";
+import Link from "next/link";
 
 interface SignUpFormData {
   email: string;
@@ -23,9 +24,9 @@ const SignUp = () => {
   const { isDirty, isValid, errors } = useFormState({ control });
 
   const onSubmit = async (formData: SignUpFormData) => {
-    console.log("submitting data");
+    
     const res = await signUp(formData);
-    console.log("res of user creation", res);
+   
     if (res.message === "User created successfully") {
       toast.success("User created sucessfully");
       Cookie.set("userProfile", JSON.stringify(formData, null, 2));
@@ -152,7 +153,7 @@ const SignUp = () => {
         </form>
 
         <p className=" text-sm text-center">
-          Have an account? &nbsp; <span className=" font-bold ">LOGIN</span>
+          Have an account? &nbsp; <Link href="/login" className=" font-bold ">LOGIN</Link>
         </p>
       </div>
       <ToastContainer />
