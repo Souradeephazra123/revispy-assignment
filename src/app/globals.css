@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -18,4 +18,33 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+} */
+
+
+/* Hide the native checkbox */
+input[type="checkbox"] {
+  display: none;
+}
+
+/* Custom checkbox styling */
+input[type="checkbox"] + span {
+  background-color: rgb(214, 209, 209);
+  border: 1px solid gray;
+  border-radius: 3px;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+/* Checked state styling */
+input[type="checkbox"]:checked + span {
+  background-color: black;
+  border-color: black;
+}
+
+/* Show the checkmark when checked */
+input[type="checkbox"]:checked + span svg {
+  display: block;
 }
