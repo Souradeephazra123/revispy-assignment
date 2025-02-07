@@ -26,13 +26,29 @@ export async function signUp(formData: SignUpFormData) {
 export async function sendOTP(recipient: string) {
   console.log("sending otp");
   const generateOTP = Math.floor(10000000 + Math.random() * 90000000);
-  await User.updateOne({ email: recipient }, { otp: generateOTP });
-  const response = await fetch(`${process.env.BASE_URL}/signup/api`, {
+  // await User.updateOne({ email: recipient }, { otp: generateOTP });
+  // const response = await fetch(`${process.env.BASE_URL}/signup/api`, {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify({ recipient, otp: generateOTP }),
+  // });
+
+  const updatePromise = User.updateOne({ email: recipient }, { otp: generateOTP });
+  const apiRequestPromise = fetch(`${process.env.BASE_URL}/signup/api`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ recipient, otp: generateOTP }),
   });
-  return response.json();
+
+  // Wait for both operations to complete
+  const [updateResult, apiResponse] = await Promise.all([updatePromise, apiRequestPromise]);
+
+  // Check the API response
+  const responseJson = await apiResponse.json();
+
+  return responseJson;
 }
