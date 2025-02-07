@@ -5,7 +5,7 @@ import OTPInput from "./OTP";
 import { matchotp } from "@/app/verify/action";
 import { useRouter } from "next/navigation";
 
-const Verify = () => {
+const Verify = ({ email }: { email: string }) => {
   const router = useRouter();
   const onOTPSubmit = async (otp) => {
     const res = await matchotp(otp);
@@ -22,7 +22,7 @@ const Verify = () => {
       <div className=" flex flex-col gap-5 p-6 border-[1px] border-[#C1C1C1]  rounded-2xl text-center">
         <p className=" text-3xl font-bold">Verify your email</p>
         <p className=" text-sm text-center">
-          Enter the 8 digit code you have received on dev***@revispy.com
+          Enter the 8 digit code you have received on {email}
         </p>
         <p className=" text-left">Code</p>
         <OTPInput
