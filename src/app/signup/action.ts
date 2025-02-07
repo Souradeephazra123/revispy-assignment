@@ -1,6 +1,7 @@
 "use server";
 
 import { User } from "@/models/users";
+import { InitDB } from "@/providers/init-db";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -35,7 +36,11 @@ export async function sendOTP(recipient: string) {
   //   body: JSON.stringify({ recipient, otp: generateOTP }),
   // });
 
-  const updatePromise = User.updateOne({ email: recipient }, { otp: generateOTP });
+  await InitDB();
+  const updatePromise = User.updateOne(
+    { email: recipient },
+    { otp: generateOTP }
+  );
   const apiRequestPromise = fetch(`${process.env.BASE_URL}/signup/api`, {
     method: "POST",
     headers: {
@@ -44,8 +49,13 @@ export async function sendOTP(recipient: string) {
     body: JSON.stringify({ recipient, otp: generateOTP }),
   });
 
+  console.log("updatePromise and apiRequestPromise created");
   // Wait for both operations to complete
-  const [updateResult, apiResponse] = await Promise.all([updatePromise, apiRequestPromise]);
+  const [updateResult, apiResponse] = await Promise.all([
+    updatePromise,
+    apiRequestPromise,
+  ]);
+  console.log("updateResult updated");
 
   // Check the API response
   const responseJson = await apiResponse.json();
