@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+dotenv.config();
 
 interface MailOptions extends nodemailer.SendMailOptions {
     to: string;

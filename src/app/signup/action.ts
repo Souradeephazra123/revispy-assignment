@@ -1,6 +1,8 @@
 "use server";
 
 import { User } from "@/models/users";
+import dotenv from "dotenv";
+dotenv.config();
 
 interface SignUpFormData {
   email: string;
@@ -10,6 +12,7 @@ interface SignUpFormData {
 
 export async function signUp(formData: SignUpFormData) {
   console.log("processing signup");
+  console.log("base url", process.env.BASE_URL);
   const response = await fetch(`${process.env.BASE_URL}/api/signup`, {
     method: "POST",
     headers: {
