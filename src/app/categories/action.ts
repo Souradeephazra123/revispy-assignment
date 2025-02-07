@@ -1,6 +1,7 @@
 "use server";
 import { Categories } from "@/models/categories";
 import { User } from "@/models/users";
+import { InitDB } from "@/providers/init-db";
 import { userprofile } from "@/utils/types";
 
 export async function saveCategories(
@@ -8,6 +9,7 @@ export async function saveCategories(
   categories: string[]
 ) {
   try {
+    await InitDB();
     const email = userData.email;
 
     const getUser = await User.findOne({ email: email });
@@ -32,6 +34,7 @@ export async function saveCategories(
 
 export async function GetCategories(userData: userprofile) {
   try {
+    await InitDB();
     const email = userData?.email;
     const getUser = await User.findOne({ email: email });
     const userId = getUser?._id;
