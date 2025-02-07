@@ -1,6 +1,7 @@
 import { User } from "@/models/users";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { InitDB } from "@/providers/init-db";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -10,6 +11,10 @@ export const POST = async (req: NextRequest) => {
     if (!email || !name || !password) {
       return NextResponse.json("Missing required fields", { status: 400 });
     }
+
+    // Initialize database connection
+    await InitDB();
+    
     console.log("Checking if user exists");
     const isUseExists = await User.exists({ email });
 
